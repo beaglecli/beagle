@@ -81,8 +81,8 @@ class Search(lister.Lister):
                                repo_match['Filename'],
                                file_match['LineNumber'],
                                file_match['Line'].strip(),
-                               '\n'.join(l.rstrip() for l in file_match['Before']),
-                               '\n'.join(l.rstrip() for l in file_match['After']))
+                               file_match['Before'],
+                               file_match['After'])
                     else:
                         yield (repo,
                                repo_match['Filename'],
