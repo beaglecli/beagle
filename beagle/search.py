@@ -39,6 +39,24 @@ class Search(lister.Lister):
             help='start of a comment line',
         )
         parser.add_argument(
+            '--file', '--file-pattern',
+            dest='file_pattern',
+            help='file name pattern',
+        )
+        parser.add_argument(
+            '--ignore-case',
+            default=False,
+            action='store_true',
+            help='ignore case in search string',
+        )
+        parser.add_argument(
+            '--repo',
+            dest='repos',
+            default=[],
+            action='append',
+            help='limit search to named repositories (option can be repeated)',
+        )
+        parser.add_argument(
             'query',
             help='the text pattern',
         )
@@ -61,11 +79,18 @@ class Search(lister.Lister):
                            )
 
     def take_action(self, parsed_args):
+        if parsed_args.repos:
+            repos = ','.join(n.strip() for n in parsed_args.repos)
+        else:
+            repos = '*'
         results = hound.query(
-            self.app.options.server_url,
-            parsed_args.query,
+            server_url=self.app.options.server_url,
+            q=parsed_args.query,
+            files=parsed_args.file_pattern,
+            ignore_case=parsed_args.ignore_case,
+            repos=repos,
         )
         return (
-            ('Repository', 'Filename', 'Line Number', 'Line', 'Before', 'After'),
+            ('Repository', 'Filename', 'Line', 'Text', 'Before', 'After'),
             self._flatten_results(results, parsed_args),
         )
