@@ -47,11 +47,12 @@ class GrepFormatter(base.ListFormatter):
             }
 
             if parsed_args.context_lines:
+                before = row_d['Before'].machine_readable()
                 write_lines_with_offset(
                     fmt,
                     row_d,
-                    row_d['Before'],
-                    -1 * len(row_d['Before']),
+                    before,
+                    -1 * len(before),
                     stdout,
                 )
 
@@ -61,7 +62,7 @@ class GrepFormatter(base.ListFormatter):
                 write_lines_with_offset(
                     fmt,
                     row_d,
-                    row_d['After'],
+                    row_d['After'].machine_readable(),
                     1,
                     stdout,
                 )

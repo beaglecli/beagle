@@ -13,9 +13,16 @@
 import logging
 import os
 
+from cliff import columns
 from cliff import lister
 
 from beagle import hound
+
+
+class MultiLineText(columns.FormattableColumn):
+
+    def human_readable(self):
+        return '\n'.join(self._value)
 
 
 class Search(lister.Lister):
@@ -81,8 +88,8 @@ class Search(lister.Lister):
                                repo_match['Filename'],
                                file_match['LineNumber'],
                                file_match['Line'].strip(),
-                               file_match['Before'],
-                               file_match['After'])
+                               MultiLineText(file_match['Before']),
+                               MultiLineText(file_match['After']))
                     else:
                         yield (repo,
                                repo_match['Filename'],
