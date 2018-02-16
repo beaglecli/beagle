@@ -55,7 +55,7 @@ class Search(lister.Lister):
                     yield (repo,
                            repo_match['Filename'],
                            file_match['LineNumber'],
-                           file_match['Line'],
+                           file_match['Line'].strip(),
                            file_match['Before'],
                            file_match['After'],
                            )
