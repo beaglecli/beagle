@@ -19,7 +19,11 @@
 import requests
 
 
-def query(server_url, q, repos='*', ignore_case=False, context_lines=0, files=None):
+def query(server_url, q,
+          repos='*',
+          ignore_case=False,
+          context_lines=0,
+          files=None):
     params = {
         'repos': repos,  # which repositories to search
         'i': 'yes' if ignore_case else 'nope',

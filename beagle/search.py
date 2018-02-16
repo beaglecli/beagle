@@ -11,7 +11,6 @@
 #    under the License.
 
 import logging
-import os
 
 from cliff import columns
 from cliff import lister
