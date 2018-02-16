@@ -29,7 +29,7 @@ class GrepFormatter(base.ListFormatter):
             '{' + c + '}'
             for c in column_names
             if c not in ('Before', 'After')
-        )
+        ) + '\n'
 
         for row in data:
             row_d = {
@@ -42,12 +42,12 @@ class GrepFormatter(base.ListFormatter):
                     d.update(row_d)
                     d['Text'] = text
                     d['Line'] += offset
-                    print(fmt.format(**d))
-            print(fmt.format(**row_d))
+                    stdout.write(fmt.format(**d))
+            stdout.write(fmt.format(**row_d))
             if parsed_args.context_lines:
                 for offset, text in enumerate(row_d['After'], 1):
                     d = {}
                     d.update(row_d)
                     d['Text'] = text
                     d['Line'] += offset
-                    print(fmt.format(**d))
+                    stdout.write(fmt.format(**d))
