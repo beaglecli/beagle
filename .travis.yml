@@ -22,7 +22,7 @@ before_install:
   - pip uninstall -y nose mock
   - pip install pbr
 
-install: pip install .[test] .[docs]
+install: pip install -r doc/requirements.txt .[test]
 
 script:
   - ./tools/travis.sh
