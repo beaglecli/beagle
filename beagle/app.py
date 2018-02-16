@@ -38,6 +38,12 @@ class Beagle(App):
             version,
             argparse_kwargs,
         )
+        parser.add_argument(
+            '--server-url', '-s',
+            dest='server_url',
+            help='the server URL',
+            default='http://codesearch.openstack.org',
+        )
         return parser
 
     def initialize_app(self, argv):
