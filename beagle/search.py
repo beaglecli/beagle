@@ -57,6 +57,12 @@ class Search(lister.Lister):
             help='limit search to named repositories (option can be repeated)',
         )
         parser.add_argument(
+            '--context-lines',
+            default=0,
+            type=int,
+            help='number of context lines',
+        )
+        parser.add_argument(
             'query',
             help='the text pattern',
         )
@@ -70,13 +76,18 @@ class Search(lister.Lister):
                         file_match['Line'].lstrip().startswith(
                             parsed_args.comment_marker)):
                         continue
-                    yield (repo,
-                           repo_match['Filename'],
-                           file_match['LineNumber'],
-                           file_match['Line'].strip(),
-                           file_match['Before'],
-                           file_match['After'],
-                           )
+                    if parsed_args.context_lines:
+                        yield (repo,
+                               repo_match['Filename'],
+                               file_match['LineNumber'],
+                               file_match['Line'].strip(),
+                               '\n'.join(l.rstrip() for l in file_match['Before']),
+                               '\n'.join(l.rstrip() for l in file_match['After']))
+                    else:
+                        yield (repo,
+                               repo_match['Filename'],
+                               file_match['LineNumber'],
+                               file_match['Line'].strip())
 
     def take_action(self, parsed_args):
         if parsed_args.repos:
@@ -89,8 +100,12 @@ class Search(lister.Lister):
             files=parsed_args.file_pattern,
             ignore_case=parsed_args.ignore_case,
             repos=repos,
+            context_lines=parsed_args.context_lines,
         )
+        columns = ('Repository', 'Filename', 'Line', 'Text')
+        if parsed_args.context_lines:
+            columns = columns + ('Before', 'After')
         return (
-            ('Repository', 'Filename', 'Line', 'Text', 'Before', 'After'),
+            columns,
             self._flatten_results(results, parsed_args),
         )
