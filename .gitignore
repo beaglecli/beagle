@@ -4,3 +4,4 @@
 /ChangeLog
 dist/
 doc/build
+.coverage
