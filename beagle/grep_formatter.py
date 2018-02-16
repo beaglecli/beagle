@@ -19,6 +19,15 @@
 from cliff.formatters import base
 
 
+def write_lines_with_offset(fmt, row_d, lines, offset_start, stdout):
+    for offset, text in enumerate(lines, offset_start):
+        d = {}
+        d.update(row_d)
+        d['Text'] = text
+        d['Line'] += offset
+        stdout.write(fmt.format(**d))
+
+
 class GrepFormatter(base.ListFormatter):
 
     def add_argument_group(self, parser):
@@ -36,18 +45,23 @@ class GrepFormatter(base.ListFormatter):
                 c: r
                 for c, r in zip(column_names, row)
             }
+
             if parsed_args.context_lines:
-                for offset, text in enumerate(row_d['Before'], -1 * len(row_d['Before'])):
-                    d = {}
-                    d.update(row_d)
-                    d['Text'] = text
-                    d['Line'] += offset
-                    stdout.write(fmt.format(**d))
+                write_lines_with_offset(
+                    fmt,
+                    row_d,
+                    row_d['Before'],
+                    -1 * len(row_d['Before']),
+                    stdout,
+                )
+
             stdout.write(fmt.format(**row_d))
+
             if parsed_args.context_lines:
-                for offset, text in enumerate(row_d['After'], 1):
-                    d = {}
-                    d.update(row_d)
-                    d['Text'] = text
-                    d['Line'] += offset
-                    stdout.write(fmt.format(**d))
+                write_lines_with_offset(
+                    fmt,
+                    row_d,
+                    row_d['After'],
+                    1,
+                    stdout,
+                )
