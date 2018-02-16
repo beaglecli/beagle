@@ -35,36 +35,3 @@ def query(server_url, q, repos='*', ignore_case=False, context_lines=0, files=No
     url = server_url.rstrip('/') + '/api/v1/search'
     response = requests.get(url, params=params, headers=headers)
     return response.json()['Results']
-
-
-def get_dependency_listings(package_name):
-    return _query(
-        q=package_name,
-        # NOTE(dhellmann): Including setup.cfg shows *lots* of results
-        # for oslo.config because of the plugins for the config
-        # generator. It would be nice to figure out how to filter
-        # those.
-        files='(.*requirements.txt|.*constraint.*.txt)',
-    )
-
-
-def show_dependency_listings(package_name, official_repos):
-    to_show = set(
-        r.partition('/')[-1]
-        for r in official_repos
-    )
-    results = get_dependency_listings(package_name)
-    for repo, repo_matches in sorted(results.items()):
-        if repo not in to_show:
-            continue
-        for repo_match in repo_matches['Matches']:
-            for file_match in repo_match['Matches']:
-                if file_match['Line'].lstrip().startswith('#'):
-                    # ignore comments
-                    continue
-                print('{repo:30}:{filename:30}:{linenum:3}: {line}'.format(
-                    repo=repo,
-                    filename=repo_match['Filename'],
-                    linenum=file_match['LineNumber'],
-                    line=file_match['Line'],
-                    ))
