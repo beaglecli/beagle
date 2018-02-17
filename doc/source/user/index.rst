@@ -60,6 +60,15 @@ output formatter.
    oslo.config:oslo_config/cfg.py:2341:    ConfigOpts is a configuration option manager with APIs for registering
    oslo.config:oslo_config/cfg.py:2342:    option schemas, grouping options, parsing option values and retrieving
 
+To produce links to the source on the OpenStack git server, use the
+``link`` formatter:
+
+.. code-block:: console
+
+   $ beagle --debug search -f link --repo oslo.config 'clasOpts'figO
+   http://git.openstack.org/cgit/openstack/oslo.config/tree/oslo_config/cfg.py#n140 : class ConfigOpts(object):
+   http://git.openstack.org/cgit/openstack/oslo.config/tree/oslo_config/cfg.py#n2337 : class ConfigOpts(collections.Mapping):
+
 OpenStack Client Integration
 ============================
 
