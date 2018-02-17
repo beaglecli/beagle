@@ -16,6 +16,7 @@ from cliff import columns
 from cliff import lister
 
 from beagle import hound
+from beagle import openstack
 
 
 class MultiLineText(columns.FormattableColumn):
@@ -30,6 +31,10 @@ class Search(lister.Lister):
     """
 
     log = logging.getLogger(__name__)
+
+    # Set the command so that when we run through
+    # python-openstackclient we do not require authentication.
+    auth_required = False
 
     def get_parser(self, prog_name):
         parser = super().get_parser(prog_name)
@@ -100,8 +105,15 @@ class Search(lister.Lister):
             repos = ','.join(n.strip() for n in parsed_args.repos)
         else:
             repos = '*'
+
+        try:
+            server_url = self.app.options.server_url
+        except AttributeError:
+            # running via the openstack CLI
+            server_url = openstack.DEFAULT_URL
+
         results = hound.query(
-            server_url=self.app.options.server_url,
+            server_url=server_url,
             q=parsed_args.query,
             files=parsed_args.file_pattern,
             ignore_case=parsed_args.ignore_case,

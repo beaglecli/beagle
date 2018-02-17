@@ -18,6 +18,8 @@ import pkg_resources
 from cliff.app import App
 from cliff.commandmanager import CommandManager
 
+from beagle import openstack
+
 
 class Beagle(App):
 
@@ -42,7 +44,7 @@ class Beagle(App):
             '--server-url', '-s',
             dest='server_url',
             help='the server URL',
-            default='http://codesearch.openstack.org',
+            default=openstack.DEFAULT_URL,
         )
         return parser
 
