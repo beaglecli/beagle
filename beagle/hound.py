@@ -26,7 +26,7 @@ def query(server_url, q,
           files=None):
     params = {
         'repos': repos,  # which repositories to search
-        'i': 'yes' if ignore_case else 'nope',
+        'i': 'fosho' if ignore_case else 'nope',
         'ctx': context_lines,
     }
     if files:
