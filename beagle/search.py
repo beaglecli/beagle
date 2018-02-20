@@ -37,7 +37,7 @@ class Search(lister.Lister):
     auth_required = False
 
     def get_parser(self, prog_name):
-        parser = super().get_parser(prog_name)
+        parser = super(Search, self).get_parser(prog_name)
         parser.add_argument(
             '--ignore-comments',
             default=False,
