@@ -1,9 +1,11 @@
 language: python
 
 python:
-  - "3.5"
-  - "3.6"
-  - "nightly"
+- '3.6'
+- '3.7'
+- '3.8'
+- '3.8-dev'
+- 'nightly'
 
 # Test the nightly build of cpython, but ignore any failures.
 # Add separate test environments for the docs and flake8 linter.
@@ -23,7 +25,9 @@ before_install:
   - pip uninstall -y nose mock
   - pip install pbr tox tox-travis
 
-install: pip install -r doc/requirements.txt .[test]
+install:
+  - pip install tox-travis
+  - pip install -r doc/requirements.txt .[test]
 
 script:
   # Conditional builds (related to env passed)
