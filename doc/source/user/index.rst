@@ -36,38 +36,40 @@ output formatter.
 
 .. code-block:: console
 
-   $ beagle search -f grep --context-lines 5 --repo oslo.config 'class ConfigOpts'
-   oslo.config:oslo_config/cfg.py:135:--------------------
-   oslo.config:oslo_config/cfg.py:136:
-   oslo.config:oslo_config/cfg.py:137:The config manager has two CLI options defined by default, --config-file
-   oslo.config:oslo_config/cfg.py:138:and --config-dir::
-   oslo.config:oslo_config/cfg.py:139:
-   oslo.config:oslo_config/cfg.py:140:class ConfigOpts(object):
-   oslo.config:oslo_config/cfg.py:141:
-   oslo.config:oslo_config/cfg.py:142:        def __call__(self, ...):
-   oslo.config:oslo_config/cfg.py:143:
-   oslo.config:oslo_config/cfg.py:144:            opts = [
-   oslo.config:oslo_config/cfg.py:145:                MultiStrOpt('config-file',
-   oslo.config:oslo_config/cfg.py:2332:    def print_usage(self, file=None):
-   oslo.config:oslo_config/cfg.py:2333:        self.initialize_parser_arguments()
-   oslo.config:oslo_config/cfg.py:2334:        super(_CachedArgumentParser, self).print_usage(file)
-   oslo.config:oslo_config/cfg.py:2335:
-   oslo.config:oslo_config/cfg.py:2336:
-   oslo.config:oslo_config/cfg.py:2337:class ConfigOpts(collections.Mapping):
-   oslo.config:oslo_config/cfg.py:2338:
-   oslo.config:oslo_config/cfg.py:2339:    """Config options which may be set on the command line or in config files.
-   oslo.config:oslo_config/cfg.py:2340:
-   oslo.config:oslo_config/cfg.py:2341:    ConfigOpts is a configuration option manager with APIs for registering
-   oslo.config:oslo_config/cfg.py:2342:    option schemas, grouping options, parsing option values and retrieving
+   $ beagle search -f grep --context-lines 5 --repo openstack/oslo.config 'class ConfigOpts'
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:5:The config manager has two CLI options defined by default, ``--config-file``
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:6:and ``--config-dir``:
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:7:
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:8:.. code-block:: python
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:9:
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:10:class ConfigOpts(object):
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:11:
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:12:        def __call__(self, ...):
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:13:
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:14:            opts = [
+   openstack/oslo.config:doc/source/reference/configuration-files.rst:15:                MultiStrOpt('config-file',
+   openstack/oslo.config:oslo_config/cfg.py:1920:    def print_usage(self, file=None):
+   openstack/oslo.config:oslo_config/cfg.py:1921:        self.initialize_parser_arguments()
+   openstack/oslo.config:oslo_config/cfg.py:1922:        super(_CachedArgumentParser, self).print_usage(file)
+   openstack/oslo.config:oslo_config/cfg.py:1923:
+   openstack/oslo.config:oslo_config/cfg.py:1924:
+   openstack/oslo.config:oslo_config/cfg.py:1925:class ConfigOpts(abc.Mapping):
+   openstack/oslo.config:oslo_config/cfg.py:1926:
+   openstack/oslo.config:oslo_config/cfg.py:1927:    """Config options which may be set on the command line or in config files.
+   openstack/oslo.config:oslo_config/cfg.py:1928:
+   openstack/oslo.config:oslo_config/cfg.py:1929:    ConfigOpts is a configuration option manager with APIs for registering
+   openstack/oslo.config:oslo_config/cfg.py:1930:    option schemas, grouping options, parsing option values and retrieving
+
 
 To produce links to the source on the OpenStack git server, use the
 ``link`` formatter:
 
 .. code-block:: console
 
-   $ beagle --debug search -f link --repo oslo.config 'clasOpts'figO
-   http://git.openstack.org/cgit/openstack/oslo.config/tree/oslo_config/cfg.py#n140 : class ConfigOpts(object):
-   http://git.openstack.org/cgit/openstack/oslo.config/tree/oslo_config/cfg.py#n2337 : class ConfigOpts(collections.Mapping):
+   $ beagle --debug search -f link --repo openstack/oslo.config 'class ConfigOpts'
+   http://git.openstack.org/cgit/openstack/openstack/oslo.config/tree/doc/source/reference/configuration-files.rst#n10 : class ConfigOpts(object):
+   http://git.openstack.org/cgit/openstack/openstack/oslo.config/tree/oslo_config/cfg.py#n1925 : class ConfigOpts(abc.Mapping):
+
 
 OpenStack Client Integration
 ============================
