@@ -67,8 +67,9 @@ To produce links to the source on the OpenStack git server, use the
 .. code-block:: console
 
    $ beagle --debug search -f link --repo openstack/oslo.config 'class ConfigOpts'
-   http://git.openstack.org/cgit/openstack/openstack/oslo.config/tree/doc/source/reference/configuration-files.rst#n10 : class ConfigOpts(object):
-   http://git.openstack.org/cgit/openstack/openstack/oslo.config/tree/oslo_config/cfg.py#n1925 : class ConfigOpts(abc.Mapping):
+   https://opendev.org/openstack/oslo.config/src/branch/master/doc/source/reference/configuration-files.rst#n10 : class ConfigOpts(object):
+   https://opendev.org/openstack/oslo.config/src/branch/master/oslo_config/cfg.py#n1925 : class ConfigOpts(abc.Mapping):
+
 
 
 OpenStack Client Integration

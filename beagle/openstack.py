@@ -22,7 +22,11 @@ class OSLinkFormatter(base.ListFormatter):
         pass
 
     def emit_list(self, column_names, data, stdout, parsed_args):
-        fmt = 'http://git.openstack.org/cgit/openstack/{Repository}/tree/{Filename}#n{Line} : {Text}\n'
+        fmt = '{base_url}/{repo}'.format(
+            base_url='https://opendev.org',
+            repo='{Repository}/src/branch/master/{Filename}#n{Line} : '
+                 '{Text}\n'
+        )
 
         for row in data:
             row_d = {
@@ -32,7 +36,7 @@ class OSLinkFormatter(base.ListFormatter):
 
             if parsed_args.context_lines:
                 before = row_d['Before'].machine_readable()
-                write_lines_with_offset(
+                write_lines_with_offset(  # noqa
                     fmt,
                     row_d,
                     before,
@@ -43,7 +47,7 @@ class OSLinkFormatter(base.ListFormatter):
             stdout.write(fmt.format(**row_d))
 
             if parsed_args.context_lines:
-                write_lines_with_offset(
+                write_lines_with_offset(  # noqa
                     fmt,
                     row_d,
                     row_d['After'].machine_readable(),
