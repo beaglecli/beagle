@@ -12,7 +12,8 @@ matrix:
     - python: "nightly"
   include:
     - env: BUILD=docs
-    - env: BUILD=linter
+    - env: BUILD=pep8
+    - env: BUILD=cover
 
 # travis pre-installs some packages that may conflict with our test
 # dependencies, so remove them before we set ourselves up. Also
@@ -20,9 +21,18 @@ matrix:
 # pip/setuptools.
 before_install:
   - pip uninstall -y nose mock
-  - pip install pbr
+  - pip install pbr tox tox-travis
 
 install: pip install -r doc/requirements.txt .[test]
 
 script:
-  - ./tools/travis.sh
+  # Conditional builds (related to env passed)
+  - |
+    case ${BUILD} in
+        docs|pep8|cover)
+            tox -e ${BUILD}
+            ;;
+        *)
+            tox
+            ;;
+    esac
