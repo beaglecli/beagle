@@ -12,6 +12,9 @@
 
 from cliff.formatters import base
 
+from beagle import grep_formatter
+
+
 DEFAULT_URL = 'http://codesearch.openstack.org'
 
 
@@ -36,7 +39,7 @@ class OSLinkFormatter(base.ListFormatter):
 
             if parsed_args.context_lines:
                 before = row_d['Before'].machine_readable()
-                write_lines_with_offset(  # noqa
+                grep_formatter.write_lines_with_offset(
                     fmt,
                     row_d,
                     before,
@@ -47,7 +50,7 @@ class OSLinkFormatter(base.ListFormatter):
             stdout.write(fmt.format(**row_d))
 
             if parsed_args.context_lines:
-                write_lines_with_offset(  # noqa
+                grep_formatter.write_lines_with_offset(
                     fmt,
                     row_d,
                     row_d['After'].machine_readable(),
