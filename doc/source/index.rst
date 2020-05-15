@@ -11,8 +11,8 @@ Beagle is a command line client for Hound_, the code search tool.
 
 .. _Hound: https://github.com/etsy/hound
 
-:Source: https://github.com/dhellmann/beagle
-:Bugs: https://github.com/dhellmann/beagle/issues
+:Source: https://github.com/beaglecli/beagle
+:Bugs: https://github.com/beaglecli/beagle/issues
 
 .. toctree::
    :maxdepth: 2
