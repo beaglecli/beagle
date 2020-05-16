@@ -36,3 +36,13 @@ script:
             tox
             ;;
     esac
+
+deploy:
+  on:
+    tags: true
+  distributions: "sdist bdist_wheel"
+  skip_existing: true
+  provider: pypi
+  user: __token__
+  password:
+    secure: qzFV1Z/ikoKIwO3/axDAvyF5putIsNzFU19CNz6hPM5kT+FbkgVND9E2QAYERo0Q2e5bZZhxdGCL0FHeYtWUx6rsBuqk/HDPZm/ltWXZ1TqU9XIJy0C7/igNG2ccBvmmY3WPGv0XezBjj0PGDMnPLpsZ7e9XT85EDnO9Ts4hbzIN+MfUQuAXbgfbl+L3ttA7XPXOFWl9Vi9GF9jVvvq16KSP6wKhCu6fQzd4S94m22YyRINEqL4f3t5X7NJeG2vHwhvRTP+9h100RDHwHea7jwA/HizRDJ1OwSxQ75CfqLWL7jatJtIMC0NDlM6ETFOOdDlAX/DZ8EsBmBBNioJyGZgltJlxJ2ObAZbhFfzzksql+XZ9XzUaCuL1Yf3mCfx5VL89wyUHW3iu8qItmxauDXcp6W36XPeh43m/m7h1vUVXenxdS3E0dVfl4tu0q2FZ48zSnUpi0OrF9yUKDQbMVfOPHCWX/Xi3pT682466xTTmN78I9c05/o7K7m1c9Vlb9u9UW8q0XYbM0zf9NyD2klVJ4Y2zz8+JQyjUJujB23gwm+SILFGprbeoa++yS+EpBQsMZSaZncxHiI4sn3c1b3ZYx4j53Kt5RKCSZa7LS9/VclCFwUik7rTqW7IrzuvvsApW7pNOzgqOplZlAqZOKMijXYvkrYdYQo41oY994ik=
