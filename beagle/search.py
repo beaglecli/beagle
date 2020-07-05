@@ -10,6 +10,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import fnmatch
 import logging
 
 from cliff import columns
@@ -68,6 +69,13 @@ class Search(lister.Lister):
             help='limit search to named repositories (option can be repeated)',
         )
         parser.add_argument(
+            '--repo-pattern',
+            dest='repo_pattern',
+            default='',
+            help=('glob pattern to match repository names '
+                  '(filtered on client side)'),
+        )
+        parser.add_argument(
             '--context-lines',
             default=0,
             type=int,
@@ -80,7 +88,13 @@ class Search(lister.Lister):
         return parser
 
     def _flatten_results(self, results, parsed_args):
-        for repo, repo_matches in sorted(results.items()):
+        interesting_repos = results.items()
+        if parsed_args.repo_pattern:
+            def check_repo(repo):
+                return fnmatch.fnmatch(repo[0], parsed_args.repo_pattern)
+            interesting_repos = filter(check_repo, results.items())
+
+        for repo, repo_matches in sorted(interesting_repos):
             for repo_match in repo_matches['Matches']:
                 for file_match in repo_match['Matches']:
                     if (parsed_args.ignore_comments and
