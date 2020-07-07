@@ -70,7 +70,28 @@ To produce links to the source on the OpenStack git server, use the
    https://opendev.org/openstack/oslo.config/src/branch/master/doc/source/reference/configuration-files.rst#n10 : class ConfigOpts(object):
    https://opendev.org/openstack/oslo.config/src/branch/master/oslo_config/cfg.py#n1925 : class ConfigOpts(abc.Mapping):
 
+To filter repositories in search results, use the ``--repo-pattern`` option.
 
+Example to show which openstack oslo project call the ``ssl.wrap_socket``
+function:
+
+.. code-block:: console
+
+   $ beagle search --ignore-comments -f link --repo-pattern "openstack/oslo.*" 'ssl.wrap_socket'
+   https://opendev.org/openstack/oslo.service/src/branch/master/oslo_service/sslutils.py#n104 : return ssl.wrap_socket(sock, **ssl_kwargs)  # nosec
+   https://opendev.org/openstack/oslo.service/src/branch/master/oslo_service/tests/test_sslutils.py#n81 : @mock.patch("ssl.wrap_socket")
+
+Same research only in the whole openstack projects
+(will ignore starlingx, etc):
+
+.. code-block:: console
+
+   $ beagle search --ignore-comments -f link --repo-pattern "openstack/*" 'ssl.wrap_socket'
+   https://opendev.org/openstack/glance/src/branch/master/glance/common/client.py#n124 : ssl.wrap_socket(), which forces SSL to check server certificate against
+   https://opendev.org/openstack/glance/src/branch/master/glance/common/client.py#n133 : self.sock = ssl.wrap_socket(sock, self.key_file, self.cert_file,
+   https://opendev.org/openstack/glance/src/branch/master/glance/common/client.py#n136 : self.sock = ssl.wrap_socket(sock, self.key_file, self.cert_file,
+   https://opendev.org/openstack/heat/src/branch/master/heat/common/wsgi.py#n239 : ssl.wrap_socket if conf specifies cert_file
+   https://opendev.org/openstack/heat/src/branch/master/heat/common/wsgi.py#n414 : self.sock = ssl.wrap_socket(self._sock,
 
 OpenStack Client Integration
 ============================
