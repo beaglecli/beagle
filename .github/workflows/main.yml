@@ -1,0 +1,60 @@
+name: Test & Checks
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    name: Tests & Checks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{matrix.python}}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox pbr
+        pip install -r doc/requirements.txt .[test]
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Check doc
+      run: tox -e docs
+    - name: Check with linters
+      run: tox -e pep8
+    - name: Check covering
+      run: tox -e cover
+    - name: Test with tox
+      run: tox
+
+  build-and-publish:
+    name: Build a new package and publish it to pypi if necessary
+    runs-on: ubuntu-latest
+    needs: tests
+    permissions:
+      id-token: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build
+    - name: Build package
+      run: python -m build
+    - name: upload windows dists
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-dists
+        path: dist/
+    - name: Publish release distributions to PyPI
+      # deploy only when a new tag is pushed to github
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@release/v1
