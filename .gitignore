@@ -1,7 +1,6 @@
 .tox
 *.egg-info
 /AUTHORS
-/ChangeLog
 dist/
 doc/build
 .coverage

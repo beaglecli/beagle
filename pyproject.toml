@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "beagle"
+description = "Command Line Client for Hound"
+readme = "README.rst"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Doug Hellmann", email = "doug@doughellmann.com" }
+]
+classifiers = [
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13"
+]
+dependencies = []
+dynamic = ["version"]
+
+[project.scripts]
+beagle = "beagle.app:main"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/beagle",
+  "/README.rst",
+  "/LICENSE"
+]
+
+[project.entry-points."beagle.cli"]
+search = "beagle.search:Search"
+
+[project.entry-points."cliff.formatter.list"]
+grep = "beagle.grep_formatter:GrepFormatter"
+link = "beagle.openstack:OSLinkFormatter"
+
+[project.entry-points."openstack.cli"]
+code_search = "beagle.search:Search"
+
+[project.optional-dependencies]
+test = [
+  "coverage",
+  "pytest",
+  "pytest-cov",
+  "testtools",
+  "fixtures",
+  "flake8"
+]
