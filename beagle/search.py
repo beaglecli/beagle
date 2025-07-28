@@ -56,6 +56,13 @@ class Search(lister.Lister):
             help='file name pattern',
         )
         parser.add_argument(
+            '--exclude',
+            dest='exclude',
+            action='append',
+            default=[],
+            help='exclude files or paths matching glob pattern (repeatable)',
+        )
+        parser.add_argument(
             '--ignore-case',
             default=False,
             action='store_true',
@@ -96,6 +103,12 @@ class Search(lister.Lister):
 
         for repo, repo_matches in sorted(interesting_repos):
             for repo_match in repo_matches['Matches']:
+                filename = repo_match['Filename']
+                # Exclude files matching any exclude pattern
+                if parsed_args.exclude:
+                    if any(fnmatch.fnmatch(filename, pat)
+                       for pat in parsed_args.exclude):
+                        continue
                 for file_match in repo_match['Matches']:
                     if (parsed_args.ignore_comments and
                         file_match['Line'].lstrip().startswith(
