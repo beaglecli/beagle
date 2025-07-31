@@ -18,7 +18,10 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13"
 ]
-dependencies = []
+dependencies = [
+    "cliff>=2.11.0",
+    "requests>=2.18.4"
+]
 dynamic = ["version"]
 
 [project.scripts]
