@@ -13,7 +13,7 @@
 import logging
 import sys
 
-import pkg_resources
+from importlib import metadata
 
 from cliff.app import App
 from cliff.commandmanager import CommandManager
@@ -26,10 +26,9 @@ class Beagle(App):
     log = logging.getLogger(__name__)
 
     def __init__(self):
-        dist = pkg_resources.get_distribution('beagle')
         super(Beagle, self).__init__(
             description='Hound command line',
-            version=dist.version,
+            version=metadata.version('beagle'),
             command_manager=CommandManager('beagle.cli'),
         )
 
